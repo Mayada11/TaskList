@@ -1,0 +1,348 @@
+<!-- Header -->
+
+<div class="jumbotron" style="padding: 45px 0px">
+  <h4 class="text-center">TASK LIST</h4>
+</div>
+<!-- add Task Icon -->
+<div class="input-group">
+  <div class="input-group-addon hover-cursor">
+    <i
+      class="fa fa-plus-circle fa-2x"
+      (click)="showDiv()"
+      style="cursor: pointer; color: #ae5f75"
+    ></i>
+  </div>
+</div>
+<!-- create Task  -->
+
+<form
+  name="EditForm"
+  *ngIf="div1"
+  #EditForm="ngForm"
+  (ngSubmit)="
+    onSubmitTask(
+      title.value,
+      description.value,
+      Asignee.value,
+      Project.value,
+      date.value
+    )
+  "
+>
+  <div class="form-group">
+    <label>Title</label>
+    <input
+      class="formElement"
+      value="title"
+      type="text"
+      #title="ngModel"
+      ngModel=""
+      name="title"
+      placeholder="title"
+      required
+      pattern="^[a-zA-Z\s]+$"
+    />
+    <div *ngIf="title.touched && title.errors" class="formElement">
+      <span
+        *ngIf="title.errors.required"
+        class="validation-message"
+        style="color: red"
+        >title is required</span
+      >
+      <span
+        *ngIf="title.errors.pattern"
+        class="validation-message"
+        style="color: red"
+        >invalid pattern for title</span
+      >
+    </div>
+  </div>
+  <div class="form-group">
+    <label>Description</label>
+    <input
+      class="formElement"
+      id="description"
+      value="description"
+      type="text"
+      #description="ngModel"
+      ngModel=""
+      name="description"
+      placeholder="description"
+      required
+      pattern="^[a-zA-Z\s]+$"
+    />
+    <div *ngIf="description.touched && description.errors" class="formElement">
+      <span *ngIf="description.errors.required" class="validation-message"
+        >description is required</span
+      >
+      <span *ngIf="description.errors.pattern" class="validation-message"
+        >invalid pattern for description</span
+      >
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label>Asignee Name</label>
+    <input
+      class="formElement"
+      value="Asignee"
+      type="text"
+      #Asignee="ngModel"
+      ngModel=""
+      name="Asignee"
+      placeholder="Asignee"
+      required
+      pattern="^[a-zA-Z\s]+$"
+    />
+    <div *ngIf="Asignee.touched && Asignee.errors" class="formElement">
+      <span *ngIf="Asignee.errors.required" class="validation-message"
+        >Asignee Name is required</span
+      >
+      <span *ngIf="Asignee.errors.pattern" class="validation-message"
+        >invalid pattern for Asignee Name</span
+      >
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label>Project Name</label>
+    <input
+      class="formElement"
+      value="Project"
+      type="text"
+      #Project="ngModel"
+      ngModel=""
+      name="Project"
+      placeholder="Project"
+      required
+      pattern="^[a-zA-Z\s]+$"
+    />
+    <div *ngIf="Project.touched && Project.errors" class="formElement">
+      <span *ngIf="Project.errors.required" class="validation-message"
+        >Project Name is required</span
+      >
+      <span *ngIf="Project.errors.pattern" class="validation-message"
+        >invalid pattern for Project Name</span
+      >
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label>Date</label>
+    <input
+      class="formElement"
+      value="date"
+      type="date"
+      #date="ngModel"
+      ngModel=""
+      name="date"
+      placeholder="date"
+      required
+    />
+    <div *ngIf="date.touched && date.errors" class="formElement">
+      <span *ngIf="date.errors.required" class="validation-message"
+        >date is required</span
+      >
+      <span *ngIf="date.errors.pattern" class="validation-message"
+        >invalid pattern for date</span
+      >
+    </div>
+  </div>
+  <button
+    type="submit"
+    [disabled]="EditForm.invalid == true"
+    class="btn btn-outline-dark add"
+    style="background-color: #ae5f75"
+  >
+    Add
+  </button>
+</form>
+
+<!-- Display Lists -->
+<div style="margin: 5px 0px">
+  <ul class="list-group" *ngFor="let item of TaskLists">
+    <li
+      class="list-group-item"
+      (click)="item.toggle = !item.toggle"
+      style="cursor: pointer"
+    >
+      <span class="hover-cursor text-danger pull-right">
+        <i
+          style="margin-right: 5px"
+          class="far fa-trash-alt"
+          (click)="deleteTask(item.taskListId, $event)"
+        ></i>
+        <i
+          style="margin-right: 5px"
+          class="fas fa-edit"
+          (click)="item.toggle1 = !item.toggle1; $event.stopPropagation()"
+        ></i>
+      </span>
+      {{ item.taskListTitle }}
+    </li>
+
+    <!-- editTask -->
+    <form
+      name="EditForm"
+      *ngIf="item.toggle1"
+      #EditForm="ngForm"
+      (ngSubmit)="
+        onEditTask(
+          item.taskListId,
+          title.value,
+          description.value,
+          Asignee.value,
+          Project.value,
+          date.value
+        )
+      "
+    >
+      <div class="form-group">
+        <label>Title</label>
+        <input
+          class="formElement"
+          value="title"
+          type="text"
+          #title="ngModel"
+          [ngModel]="item.taskListTitle"
+          name="title"
+          placeholder="title"
+          required
+          pattern="^[a-zA-Z\s]+$"
+        />
+        <div *ngIf="title.touched && title.errors" class="formElement">
+          <span *ngIf="title.errors.required" class="validation-message"
+            >title is required</span
+          >
+          <span *ngIf="title.errors.pattern" class="validation-message"
+            >invalid pattern for title</span
+          >
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Description</label>
+        <input
+          class="formElement"
+          id="description"
+          value="description"
+          type="text"
+          #description="ngModel"
+          [ngModel]="item.taskListDetails"
+          name="description"
+          placeholder="description"
+          required
+          pattern="^[a-zA-Z\s]+$"
+        />
+        <div
+          *ngIf="description.touched && description.errors"
+          class="formElement"
+        >
+          <span *ngIf="description.errors.required" class="validation-message"
+            >description is required</span
+          >
+          <span *ngIf="description.errors.pattern" class="validation-message"
+            >invalid pattern for description</span
+          >
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Asignee Name</label>
+        <input
+          class="formElement"
+          value="Asignee"
+          type="text"
+          #Asignee="ngModel"
+          [ngModel]="item.assigneeName"
+          name="Asignee"
+          placeholder="Asignee"
+          required
+          pattern="^[a-zA-Z\s]+$"
+        />
+        <div *ngIf="Asignee.touched && Asignee.errors" class="formElement">
+          <span *ngIf="Asignee.errors.required" class="validation-message"
+            >Asignee Name is required</span
+          >
+          <span *ngIf="Asignee.errors.pattern" class="validation-message"
+            >invalid pattern for Asignee Name</span
+          >
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Project Name</label>
+        <input
+          class="formElement"
+          value="project"
+          type="text"
+          #Project="ngModel"
+          [ngModel]="item.project"
+          name="Project"
+          placeholder="Project"
+          required
+          pattern="^[a-zA-Z\s]+$"
+        />
+        <div *ngIf="Project.touched && Project.errors" class="formElement">
+          <span *ngIf="Project.errors.required" class="validation-message"
+            >Project Name is required</span
+          >
+          <span *ngIf="Project.errors.pattern" class="validation-message"
+            >invalid pattern for Project Name</span
+          >
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Date</label>
+        <input
+          class="formElement"
+          value="item.date"
+          type="date"
+          #date="ngModel"
+          [ngModel]="item.date"
+          name="date"
+          placeholder="date"
+          required
+        />
+        <div *ngIf="date.touched && date.errors" class="formElement">
+          <span *ngIf="date.errors.required" class="validation-message"
+            >date is required</span
+          >
+          <span *ngIf="date.errors.pattern" class="validation-message"
+            >invalid pattern for date</span
+          >
+        </div>
+      </div>
+      <button
+        type="submit"
+        [disabled]="EditForm.invalid == true"
+        class="btn btn-outline-dark add"
+        style="background-color: #ae5f75"
+      >
+        Edit
+      </button>
+    </form>
+
+    <li class="list-group-item" *ngIf="item.toggle">
+      <div class="card" style="width: 18rem">
+        <div class="card-body">
+          <h5 class="card-title" style="color: #ae5f75">
+            Title : {{ item.taskListTitle }}
+          </h5>
+          <h6 class="card-subtitle mb-2 text-muted" style="color: #ae5f75">
+            Asignee Name : {{ item.assigneeName }}
+          </h6>
+          <h6 class="card-subtitle mb-2 text-muted" style="color: #ae5f75">
+            Project Name : {{ item.project }}
+          </h6>
+          <h6 class="card-subtitle mb-2 text-muted" style="color: #ae5f75">
+            Date : {{ item.date }}
+          </h6>
+          <p class="card-text" style="color: #ae5f75">
+            {{ item.taskListDetails }}
+          </p>
+        </div>
+      </div>
+    </li>
+  </ul>
+</div>

@@ -1,0 +1,56 @@
+/* tiny reset */
+html,
+body {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+}
+/* body */
+body {
+  background: #4d244e;
+  font-family: sans-serif;
+  border-top: 5px solid #aa8e8d;
+}
+/* title */
+h4 {
+  color: #aa8e8d;
+  text-align: center;
+  font-size: 32px;
+  font-weight: 900;
+}
+label {
+  background: #ae5f75;
+  height: 69px;
+  width: 100%;
+  display: block;
+  border-bottom: 1px solid #2c3e50;
+  color: #fff;
+  text-transform: capitalize;
+  font-weight: 900;
+  font-size: 16px;
+  letter-spacing: 1px;
+  text-indent: 20px;
+  cursor: pointer;
+  transition: all 0.7s ease;
+  position: relative;
+  padding: 5px;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
+
+input {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  box-sizing: border-box;
+  border: 3px solid #ccc;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+  outline: none;
+}
+
+input[type="text"]:focus {
+  border: 3px solid #555;
+}
